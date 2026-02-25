@@ -1,15 +1,14 @@
-import fs from "fs";
 import { EventEmitter } from "events";
 import sax from "sax";
 
 /**
- * Parses a product feed XML file and emits each product as a 'product' event.
+ * Parses a product feed XML stream and emits each product as a 'product' event.
  * Emits 'end' when the feed is fully parsed and 'error' on parse failures.
  *
- * @param {string} filePath - Path to the XML feed file.
+ * @param {import('stream').Readable} stream - Readable stream of the XML feed.
  * @returns {EventEmitter}
  */
-export default function ProductFeedParser(filePath) {
+export default function ProductFeedParser(stream) {
   const emitter = new EventEmitter();
 
   let currentItem = null;
@@ -52,7 +51,7 @@ export default function ProductFeedParser(filePath) {
 
   saxStream.on("error", (err) => emitter.emit("error", err));
 
-  fs.createReadStream(filePath).pipe(saxStream);
+  stream.pipe(saxStream);
 
   return emitter;
 }

@@ -9,11 +9,11 @@ Write a program that
 A batch should
 
 - Be a JSON encoded array of the form:
-    
+
 ```
 [{id: 'id', title: 'title', description: 'description'}, ...]
 ```
-    
+
 - As close to as possible, but not exceeding 5 megabytes in size
 
 ## Deliverables
@@ -27,5 +27,5 @@ node assignment.js
 
 ## Extra Info
 
-- The product feed format specification can be  [found here](https://support.google.com/merchants/answer/7052112)
+- The product feed format specification can be [found here](https://support.google.com/merchants/answer/7052112)
 - You can use any existing library you want (please don't write your own XML parser :))

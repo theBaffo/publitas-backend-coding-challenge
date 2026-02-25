@@ -29,10 +29,10 @@ Copy `.env.sample` to `.env` and adjust the values:
 cp .env.sample .env
 ```
 
-| Variable | Default | Description |
-|---|---|---|
-| `FEED_PATH` | `./feed.xml` | Path to the product feed XML file |
-| `MAX_BATCH_SIZE` | `5242880` (5 MB) | Maximum batch size in bytes |
+| Variable         | Default          | Description                       |
+| ---------------- | ---------------- | --------------------------------- |
+| `FEED_PATH`      | `./feed.xml`     | Path to the product feed XML file |
+| `MAX_BATCH_SIZE` | `5242880` (5 MB) | Maximum batch size in bytes       |
 
 ## Setup & Run
 
