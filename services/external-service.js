@@ -1,4 +1,4 @@
-const ONE_MEGA_BYTE = 1_048_576.0;
+import { ONE_MEGA_BYTE } from "./constants.js";
 
 function prettyPrint(batch, batchNum) {
   const products = JSON.parse(batch);

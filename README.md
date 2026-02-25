@@ -15,6 +15,15 @@ See [CODING_CHALLENGE.md](CODING_CHALLENGE.md) for more info about the challenge
 
 - Node.js ≥ 18
 
+## Configuration
+
+Copy `.env.sample` to `.env` and adjust the values:
+
+| Variable | Default | Description |
+|---|---|---|
+| `FEED_PATH` | `./feed.xml` | Path to the product feed XML file |
+| `MAX_BATCH_SIZE` | `5242880` (5 MB) | Maximum batch size in bytes |
+
 ## Setup & Run
 
 ```bash
