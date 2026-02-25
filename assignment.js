@@ -1,11 +1,11 @@
-import fs from 'fs';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import sax from 'sax';
-import ExternalService from './external-service.js';
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import sax from "sax";
+import ExternalService from "./external-service.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const FEED_PATH = path.join(__dirname, 'feed.xml');
+const FEED_PATH = path.join(__dirname, "feed.xml");
 
 const MAX_BATCH_SIZE = 5 * 1_048_576; // 5 MB in bytes
 
@@ -25,12 +25,13 @@ function flushBatch() {
 
 function addProduct(product) {
   const productJson = JSON.stringify(product);
-  const productBytes = Buffer.byteLength(productJson, 'utf8');
+  const productBytes = Buffer.byteLength(productJson, "utf8");
   const separatorBytes = batch.length > 0 ? 1 : 0; // comma between elements
   const addedBytes = productBytes + separatorBytes;
 
   if (batchSize + addedBytes > MAX_BATCH_SIZE) {
     flushBatch();
+
     // After flush batch is empty, no separator needed
     batch.push(product);
     batchSize += productBytes;
@@ -40,45 +41,46 @@ function addProduct(product) {
   }
 }
 
-const saxStream = sax.createStream(true /* strict */);
+// Initialize SAX parser in strict mode
+const saxStream = sax.createStream(true);
 
-saxStream.on('opentag', (node) => {
-  if (node.name === 'item') {
+saxStream.on("opentag", (node) => {
+  if (node.name === "item") {
     currentItem = { id: null, title: null, description: null };
   }
   currentTag = node.name;
 });
 
-saxStream.on('text', (text) => {
+saxStream.on("text", (text) => {
   if (!currentItem) return;
 
   switch (currentTag) {
-    case 'g:id':
-      currentItem.id = (currentItem.id ?? '') + text;
+    case "g:id":
+      currentItem.id = (currentItem.id ?? "") + text;
       break;
-    case 'title':
-      currentItem.title = (currentItem.title ?? '') + text;
+    case "title":
+      currentItem.title = (currentItem.title ?? "") + text;
       break;
-    case 'description':
-      currentItem.description = (currentItem.description ?? '') + text;
+    case "description":
+      currentItem.description = (currentItem.description ?? "") + text;
       break;
   }
 });
 
-saxStream.on('closetag', (name) => {
-  if (name === 'item' && currentItem) {
+saxStream.on("closetag", (name) => {
+  if (name === "item" && currentItem) {
     addProduct(currentItem);
     currentItem = null;
   }
   currentTag = null;
 });
 
-saxStream.on('end', () => {
+saxStream.on("end", () => {
   flushBatch();
 });
 
-saxStream.on('error', (err) => {
-  console.error('XML parse error:', err);
+saxStream.on("error", (err) => {
+  console.error("XML parse error:", err);
   process.exit(1);
 });
 
