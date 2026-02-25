@@ -1,8 +1,8 @@
 # Publitas Backend Coding Challenge
 
-## Overview
+## Challenge Description
 
-Parses a product feed XML file, extracts `id`, `title`, and `description` from each product, and sends them in batches of up to 5 MB to an external service.
+See [CODING_CHALLENGE.md](CODING_CHALLENGE.md) for more info about the challenge.
 
 ## How it works
 
