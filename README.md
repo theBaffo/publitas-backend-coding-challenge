@@ -36,7 +36,20 @@ cp .env.sample .env
 
 ## Setup & Run
 
+To setup and run the application, run the following command:
+
 ```bash
 npm install
 node assignment.js
+```
+
+# Tests
+
+To run the tests, run the following command:
+
+'''bash
+npm test
+
+```
+
 ```
