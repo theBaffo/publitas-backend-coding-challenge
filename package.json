@@ -1,0 +1,15 @@
+{
+  "name": "publitas-backend-coding-challenge",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "assignment.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "sax": "^1.4.1"
+  }
+}
