@@ -17,7 +17,17 @@ See [CODING_CHALLENGE.md](CODING_CHALLENGE.md) for more info about the challenge
 
 ## Configuration
 
+### Products file
+
+Copy the products file found [here](http://challenge.publitas.com/feed.xml), or another one, in the project root.
+
+### Environment Variables
+
 Copy `.env.sample` to `.env` and adjust the values:
+
+```bash
+cp .env.sample .env
+```
 
 | Variable | Default | Description |
 |---|---|---|
