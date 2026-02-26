@@ -7,7 +7,7 @@
   "type": "module",
   "main": "assignment.js",
   "scripts": {
-    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "node --no-warnings=ExperimentalWarning --experimental-vm-modules node_modules/.bin/jest",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
