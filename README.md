@@ -19,7 +19,7 @@ See [CODING_CHALLENGE.md](CODING_CHALLENGE.md) for more info about the challenge
 
 ### Products file
 
-Copy the products file found [here](http://challenge.publitas.com/backend.html), or another one, into the `feeds/` folder.
+An example file is already provided, and can be found in the `feeds/` folder.
 
 ### Environment Variables
 
