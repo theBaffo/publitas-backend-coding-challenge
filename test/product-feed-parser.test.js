@@ -1,6 +1,6 @@
 import { test, expect } from "@jest/globals";
 import { Readable } from "stream";
-import ProductFeedParser from "../services/product-feed-parser.js";
+import ProductFeedParser from "../src/services/product-feed-parser.js";
 
 function streamFrom(xml) {
   return Readable.from([xml]);

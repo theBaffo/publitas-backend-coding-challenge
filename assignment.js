@@ -1,7 +1,7 @@
 import fs from "fs";
-import ExternalService from "./services/external-service.js";
-import ProductFeedParser from "./services/product-feed-parser.js";
-import ProductBatcher from "./services/product-batcher.js";
+import ExternalService from "./src/services/external-service.js";
+import ProductFeedParser from "./src/services/product-feed-parser.js";
+import ProductBatcher from "./src/services/product-batcher.js";
 import { FEED_PATH, MAX_BATCH_SIZE } from "./config.js";
 
 const batcher = ProductBatcher(ExternalService(), MAX_BATCH_SIZE);
