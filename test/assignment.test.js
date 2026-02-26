@@ -2,6 +2,7 @@ import { test, expect } from "@jest/globals";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
+import { Readable } from "stream";
 import { run } from "../assignment.js";
 import { ONE_MEGA_BYTE } from "../src/utils/constants.js";
 
@@ -86,4 +87,18 @@ test("splits products into multiple batches when the limit is tight", async () =
   await run(fs.createReadStream(FIXTURE_PATH), service, tinyLimit);
 
   expect(service.calls).toHaveLength(3);
+});
+
+test("rejects when the feed file does not exist", async () => {
+  const service = mockService();
+  const missingStream = fs.createReadStream("/non/existent/feed.xml");
+
+  await expect(run(missingStream, service, MAX_BATCH_SIZE)).rejects.toThrow();
+});
+
+test("rejects when the feed contains invalid XML", async () => {
+  const service = mockService();
+  const brokenStream = Readable.from(["<rss><channel><item><unclosed>"]);
+
+  await expect(run(brokenStream, service, MAX_BATCH_SIZE)).rejects.toThrow();
 });

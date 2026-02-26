@@ -54,7 +54,9 @@ export default function ProductFeedParser(stream) {
 
   saxStream.on("end", () => emitter.emit("end"));
 
+  // Track errors from both the SAX parser and the input stream
   saxStream.on("error", (err) => emitter.emit("error", err));
+  stream.on("error", (err) => emitter.emit("error", err));
 
   stream.pipe(saxStream);
 

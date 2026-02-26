@@ -93,3 +93,22 @@ test("emits no products for an empty channel", async () => {
 
   expect(products).toHaveLength(0);
 });
+
+test("emits an error for malformed XML", async () => {
+  await expect(
+    collectProducts("<rss><channel><item><unclosed>"),
+  ).rejects.toThrow();
+});
+
+test("emits an error when the source stream errors", async () => {
+  const stream = new Readable({ read() {} });
+  process.nextTick(() => stream.emit("error", new Error("read error")));
+
+  const promise = new Promise((resolve, reject) => {
+    const feed = ProductFeedParser(stream);
+    feed.on("end", resolve);
+    feed.on("error", reject);
+  });
+
+  await expect(promise).rejects.toThrow("read error");
+});

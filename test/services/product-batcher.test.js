@@ -84,3 +84,35 @@ test("each batch does not exceed the size limit", () => {
     expect(size).toBeLessThanOrEqual(limit);
   }
 });
+
+test("propagates errors thrown by the service on flush", () => {
+  const service = {
+    call: () => {
+      throw new Error("service error");
+    },
+  };
+  const batcher = ProductBatcher(service, ONE_MEGA_BYTE);
+
+  batcher.add({ id: "1", title: "Foo", description: "Bar" });
+
+  expect(() => batcher.flush()).toThrow("service error");
+});
+
+test("propagates errors thrown by the service when a product triggers an auto-flush", () => {
+  const product = { id: "1", title: "Foo", description: "Bar" };
+  const productBytes = Buffer.byteLength(JSON.stringify(product), "utf8");
+  const limit = 2 + productBytes;
+
+  const service = {
+    call: () => {
+      throw new Error("service error");
+    },
+  };
+  const batcher = ProductBatcher(service, limit);
+
+  batcher.add(product); // fills the batch exactly
+
+  expect(() =>
+    batcher.add({ id: "2", title: "Baz", description: "Qux" }),
+  ).toThrow("service error");
+});
