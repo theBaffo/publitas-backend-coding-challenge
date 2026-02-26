@@ -1,5 +1,6 @@
 import { EventEmitter } from "events";
 import sax from "sax";
+import { XmlParseError, FeedStreamError } from "../errors/errors.js";
 
 /**
  * Parses a product feed XML stream and emits each product as a 'product' event.
@@ -55,8 +56,13 @@ export default function ProductFeedParser(stream) {
   saxStream.on("end", () => emitter.emit("end"));
 
   // Track errors from both the SAX parser and the input stream
-  saxStream.on("error", (err) => emitter.emit("error", err));
-  stream.on("error", (err) => emitter.emit("error", err));
+  saxStream.on("error", (err) =>
+    emitter.emit("error", new XmlParseError(err.message, { cause: err })),
+  );
+
+  stream.on("error", (err) =>
+    emitter.emit("error", new FeedStreamError(err.message, { cause: err })),
+  );
 
   stream.pipe(saxStream);
 

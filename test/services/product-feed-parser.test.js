@@ -1,6 +1,7 @@
 import { test, expect } from "@jest/globals";
 import { Readable } from "stream";
 import ProductFeedParser from "../../src/services/product-feed-parser.js";
+import { XmlParseError, FeedStreamError } from "../../src/errors/errors.js";
 
 function streamFrom(xml) {
   return Readable.from([xml]);
@@ -94,13 +95,13 @@ test("emits no products for an empty channel", async () => {
   expect(products).toHaveLength(0);
 });
 
-test("emits an error for malformed XML", async () => {
+test("emits an XmlParseError for malformed XML", async () => {
   await expect(
     collectProducts("<rss><channel><item><unclosed>"),
-  ).rejects.toThrow();
+  ).rejects.toThrow(XmlParseError);
 });
 
-test("emits an error when the source stream errors", async () => {
+test("emits a FeedStreamError when the source stream errors", async () => {
   const stream = new Readable({ read() {} });
   process.nextTick(() => stream.emit("error", new Error("read error")));
 
@@ -110,5 +111,5 @@ test("emits an error when the source stream errors", async () => {
     feed.on("error", reject);
   });
 
-  await expect(promise).rejects.toThrow("read error");
+  await expect(promise).rejects.toThrow(FeedStreamError);
 });

@@ -5,6 +5,7 @@ import { fileURLToPath } from "url";
 import { Readable } from "stream";
 import { run } from "../assignment.js";
 import { ONE_MEGA_BYTE } from "../src/utils/constants.js";
+import { XmlParseError, FeedStreamError } from "../src/errors/errors.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const FIXTURE_PATH = path.join(__dirname, "fixtures/feed.xml");
@@ -89,16 +90,20 @@ test("splits products into multiple batches when the limit is tight", async () =
   expect(service.calls).toHaveLength(3);
 });
 
-test("rejects when the feed file does not exist", async () => {
+test("rejects with a FeedStreamError when the feed file does not exist", async () => {
   const service = mockService();
   const missingStream = fs.createReadStream("/non/existent/feed.xml");
 
-  await expect(run(missingStream, service, MAX_BATCH_SIZE)).rejects.toThrow();
+  await expect(run(missingStream, service, MAX_BATCH_SIZE)).rejects.toThrow(
+    FeedStreamError,
+  );
 });
 
-test("rejects when the feed contains invalid XML", async () => {
+test("rejects with an XmlParseError when the feed contains invalid XML", async () => {
   const service = mockService();
   const brokenStream = Readable.from(["<rss><channel><item><unclosed>"]);
 
-  await expect(run(brokenStream, service, MAX_BATCH_SIZE)).rejects.toThrow();
+  await expect(run(brokenStream, service, MAX_BATCH_SIZE)).rejects.toThrow(
+    XmlParseError,
+  );
 });
