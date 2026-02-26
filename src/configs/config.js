@@ -7,7 +7,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export const FEED_PATH = process.env.FEED_PATH
   ? path.resolve(process.env.FEED_PATH)
-  : path.join(__dirname, "feed.xml");
+  : path.join(__dirname, "../../feeds/feed.xml");
 
 export const MAX_BATCH_SIZE = process.env.MAX_BATCH_SIZE
   ? parseInt(process.env.MAX_BATCH_SIZE, 10)
