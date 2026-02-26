@@ -8,11 +8,15 @@
  */
 export default function ProductBatcher(service, maxBatchSize) {
   let batch = [];
-  let batchSize = 2; // JSON array overhead: "[]"
+  let batchSize = 2; // Start with 2 bytes for the array brackets "[]"
 
   function flush() {
-    if (batch.length === 0) return;
+    if (batch.length === 0) {
+      return;
+    }
+
     service.call(JSON.stringify(batch));
+
     batch = [];
     batchSize = 2;
   }
@@ -25,7 +29,8 @@ export default function ProductBatcher(service, maxBatchSize) {
 
     if (batchSize + addedBytes > maxBatchSize) {
       flush();
-      // After flush batch is empty, no separator needed
+
+      // After flush batch is empty, no separator is needed
       batch.push(product);
       batchSize += productBytes;
     } else {

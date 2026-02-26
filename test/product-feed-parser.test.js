@@ -10,6 +10,7 @@ function collectProducts(xml) {
   return new Promise((resolve, reject) => {
     const products = [];
     const feed = ProductFeedParser(streamFrom(xml));
+
     feed.on("product", (p) => products.push(p));
     feed.on("end", () => resolve(products));
     feed.on("error", reject);

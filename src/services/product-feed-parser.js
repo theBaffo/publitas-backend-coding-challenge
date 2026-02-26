@@ -14,17 +14,21 @@ export default function ProductFeedParser(stream) {
   let currentItem = null;
   let currentTag = null;
 
-  const saxStream = sax.createStream(true /* strict */);
+  // Create a SAX parser stream in strict mode
+  const saxStream = sax.createStream(true);
 
   saxStream.on("opentag", (node) => {
     if (node.name === "item") {
       currentItem = { id: null, title: null, description: null };
     }
+
     currentTag = node.name;
   });
 
   saxStream.on("text", (text) => {
-    if (!currentItem) return;
+    if (!currentItem) {
+      return;
+    }
 
     switch (currentTag) {
       case "g:id":
@@ -44,6 +48,7 @@ export default function ProductFeedParser(stream) {
       emitter.emit("product", currentItem);
       currentItem = null;
     }
+
     currentTag = null;
   });
 
