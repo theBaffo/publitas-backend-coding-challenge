@@ -1,3 +1,5 @@
+import { ServiceCallError } from "../errors/errors.js";
+
 /**
  * Accumulates products into batches not exceeding maxBatchSize bytes and
  * forwards each completed batch to the provided service.
@@ -15,7 +17,11 @@ export default function ProductBatcher(service, maxBatchSize) {
       return;
     }
 
-    service.call(JSON.stringify(batch));
+    try {
+      service.call(JSON.stringify(batch));
+    } catch (err) {
+      throw new ServiceCallError(err.message, { cause: err });
+    }
 
     batch = [];
     batchSize = 2;

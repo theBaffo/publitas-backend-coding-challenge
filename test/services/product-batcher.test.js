@@ -1,6 +1,7 @@
 import { test, expect } from "@jest/globals";
 import ProductBatcher from "../../src/services/product-batcher.js";
 import { ONE_MEGA_BYTE } from "../../src/utils/constants.js";
+import { ServiceCallError } from "../../src/errors/errors.js";
 
 function mockService() {
   const calls = [];
@@ -95,7 +96,7 @@ test("propagates errors thrown by the service on flush", () => {
 
   batcher.add({ id: "1", title: "Foo", description: "Bar" });
 
-  expect(() => batcher.flush()).toThrow("service error");
+  expect(() => batcher.flush()).toThrow(ServiceCallError);
 });
 
 test("propagates errors thrown by the service when a product triggers an auto-flush", () => {
@@ -114,5 +115,5 @@ test("propagates errors thrown by the service when a product triggers an auto-fl
 
   expect(() =>
     batcher.add({ id: "2", title: "Baz", description: "Qux" }),
-  ).toThrow("service error");
+  ).toThrow(ServiceCallError);
 });

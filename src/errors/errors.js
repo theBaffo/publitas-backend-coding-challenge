@@ -11,3 +11,10 @@ export class FeedStreamError extends Error {
     this.name = "FeedStreamError";
   }
 }
+
+export class ServiceCallError extends Error {
+  constructor(message, options) {
+    super(message, options);
+    this.name = "ServiceCallError";
+  }
+}
