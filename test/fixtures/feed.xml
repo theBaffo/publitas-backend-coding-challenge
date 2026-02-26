@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <item>
+      <g:id>1001</g:id>
+      <title>Blue Jeans - Skinny Fit</title>
+      <description>Classic blue jeans in a skinny fit. Made from stretch denim for all-day comfort.</description>
+      <g:price>89.99</g:price>
+      <link>https://example.com/products/1001</link>
+    </item>
+    <item>
+      <g:id>1002</g:id>
+      <title>Black Jeans - Straight Fit</title>
+      <description>Versatile black jeans in a straight fit. Goes with everything in your wardrobe.</description>
+      <g:price>79.99</g:price>
+      <link>https://example.com/products/1002</link>
+    </item>
+    <item>
+      <g:id>1003</g:id>
+      <title>White Sneakers</title>
+      <description>Clean white sneakers with a minimalist design. Comfortable for everyday wear.</description>
+      <g:price>59.99</g:price>
+      <link>https://example.com/products/1003</link>
+    </item>
+  </channel>
+</rss>

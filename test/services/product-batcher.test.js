@@ -1,6 +1,6 @@
 import { test, expect } from "@jest/globals";
-import ProductBatcher from "../src/services/product-batcher.js";
-import { ONE_MEGA_BYTE } from "../src/utils/constants.js";
+import ProductBatcher from "../../src/services/product-batcher.js";
+import { ONE_MEGA_BYTE } from "../../src/utils/constants.js";
 
 function mockService() {
   const calls = [];
