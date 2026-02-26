@@ -1,6 +1,6 @@
 import { test, expect } from "@jest/globals";
 import { Readable } from "stream";
-import ProductFeedParser from "../../src/services/product-feed-parser.js";
+import ProductFeedParser from "../../src/emitters/product-feed-parser.js";
 import { XmlParseError, FeedStreamError } from "../../src/errors/errors.js";
 
 function streamFrom(xml) {
@@ -10,7 +10,7 @@ function streamFrom(xml) {
 function collectProducts(xml) {
   return new Promise((resolve, reject) => {
     const products = [];
-    const feed = ProductFeedParser(streamFrom(xml));
+    const feed = new ProductFeedParser(streamFrom(xml));
 
     feed.on("product", (p) => products.push(p));
     feed.on("end", () => resolve(products));
@@ -106,7 +106,7 @@ test("emits a FeedStreamError when the source stream errors", async () => {
   process.nextTick(() => stream.emit("error", new Error("read error")));
 
   const promise = new Promise((resolve, reject) => {
-    const feed = ProductFeedParser(stream);
+    const feed = new ProductFeedParser(stream);
     feed.on("end", resolve);
     feed.on("error", reject);
   });

@@ -1,14 +1,14 @@
 import fs from "fs";
 import { fileURLToPath } from "url";
 import ExternalService from "./src/services/external-service.js";
-import ProductFeedParser from "./src/services/product-feed-parser.js";
+import ProductFeedParser from "./src/emitters/product-feed-parser.js";
 import ProductBatcher from "./src/services/product-batcher.js";
 import { FEED_PATH, MAX_BATCH_SIZE } from "./src/configs/config.js";
 
 export function run(stream, service, maxBatchSize) {
   return new Promise((resolve, reject) => {
     const batcher = ProductBatcher(service, maxBatchSize);
-    const feed = ProductFeedParser(stream);
+    const feed = new ProductFeedParser(stream);
 
     feed.on("product", (product) => batcher.add(product));
     feed.on("end", () => {
