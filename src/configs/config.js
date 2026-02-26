@@ -1,7 +1,7 @@
 import "dotenv/config";
 import path from "path";
 import { fileURLToPath } from "url";
-import { ONE_MEGA_BYTE } from "./constants.js";
+import { ONE_MEGA_BYTE } from "../utils/constants.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
