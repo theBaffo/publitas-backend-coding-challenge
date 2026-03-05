@@ -18,7 +18,8 @@ export default function ProductBatcher(service, maxBatchSize) {
     }
 
     try {
-      service.call(JSON.stringify(batch));
+      const batchJson = `[${batch.join(",")}]`;
+      service.call(batchJson);
     } catch (err) {
       throw new ServiceCallError(err.message, { cause: err });
     }
@@ -37,10 +38,10 @@ export default function ProductBatcher(service, maxBatchSize) {
       flush();
 
       // After flush batch is empty, no separator is needed
-      batch.push(product);
+      batch.push(productJson);
       batchSize += productBytes;
     } else {
-      batch.push(product);
+      batch.push(productJson);
       batchSize += addedBytes;
     }
   }
